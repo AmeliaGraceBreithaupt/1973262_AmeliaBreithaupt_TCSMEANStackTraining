@@ -1,32 +1,42 @@
 <div>
     <h2>Quiz Questions</h2>
-    <div>
-      <fieldset *ngFor="let q of questions"> 
+    <div >
+        <div *ngIf="resultFlag" style="text-align: center;">
+            <b [style.color]="resultColor()">Result: {{numCorrect}}/10</b>
+          </div>
+      <fieldset class="card shadow p-3 mb-3 bg-body rounded" *ngFor="let q of questions"> 
         <legend >{{q.question}}</legend> 
-        <div id="{{q.question}}1" name="1">
-            <input id="answer1" type="radio" name="{{q.question}}" #a1 required 
-                (click)="onSelect(q.question,1);"/>
-            <label for="answer1">{{q.answer1}}</label> 
-        </div>
-        <div id="{{q.question}}2" name="2">
-            <input type="radio" name="{{q.question}}" #a2 id="answer2"  required 
-                (click)="onSelect(q.question,2);">
-            <label for="answer2">{{q.answer2}}</label> 
-        </div>
-        <div id="{{q.question}}3" name="3">
-            <input type="radio" name="{{q.question}}" #a3 id="answer3" required 
-                (click)="onSelect(q.question,3);" >
-            <label for="answer3">{{q.answer3}}</label> 
-        </div>
-        <div id="{{q.question}}4" name="4">
-            <input type="radio" name="{{q.question}}" #a4 id="answer4" required 
-                (click)="onSelect(q.question,4);">
-            <label for="answer4">{{q.answer4}}</label> 
+        <div class="container">
+            <div class="row">
+                <div id="{{q.question}}1" name="1" class="col">
+                    <input class="m-2" style="transform: scale(1.5);" type="radio" name="{{q.question}}" #a1 required 
+                        (click)="onSelect(q.question,1);"/>
+                    <label for="answer1">{{q.answer1}}</label> 
+                </div>
+                <div id="{{q.question}}2" name="2" class="col">
+                    <input class="m-2" style="transform: scale(1.5);" type="radio" name="{{q.question}}" #a2 id="answer2"  required 
+                        (click)="onSelect(q.question,2);">
+                    <label for="answer2">{{q.answer2}}</label> 
+                </div>
+            </div>
+            <div class="row">
+                <div id="{{q.question}}3" name="3" class="col">
+                    <input class="m-2" style="transform: scale(1.5);" type="radio" name="{{q.question}}" #a3 id="answer3" required 
+                        (click)="onSelect(q.question,3);" >
+                    <label for="answer3">{{q.answer3}}</label> 
+                </div>
+                <div id="{{q.question}}4" name="4" class="col">
+                    <input class="m-2" style="transform: scale(1.5);" type="radio" name="{{q.question}}" #a4 id="answer4" required 
+                        (click)="onSelect(q.question,4);">
+                    <label for="answer4">{{q.answer4}}</label> 
+                </div>
+            </div>
         </div>
       </fieldset> 
     </div>
-      <input type="submit" value="Submit Answers" (click)="onSubmit()" [disabled]="click"/>
-    <div *ngIf="resultFlag">
+    <br>
+      <input class="btn btn-primary float-end" type="submit" value="Submit Answers" (click)="onSubmit()" [disabled]="click"/>
+    <div *ngIf="resultFlag" style="text-align: center;">
       <b [style.color]="resultColor()">Result: {{numCorrect}}/10</b>
       <p style="font-size: x-small;">Note: green is good, red is bad</p>
     </div>

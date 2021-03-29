@@ -79,8 +79,8 @@ export class QuizComponent implements OnInit {
 
   highlightAnswers(){
     for(let i=0;i<10;i++){
-      document.getElementById(this.userAnswers[i].question+this.userAnswers[i].answer)!.style.backgroundColor = "red";
-      document.getElementById(this.answerKey[i].question+this.answerKey[i].answer)!.style.backgroundColor = "green";
+      document.getElementById(this.userAnswers[i].question+this.userAnswers[i].answer)!.style.backgroundColor = "rgb(255, 36, 36)";
+      document.getElementById(this.answerKey[i].question+this.answerKey[i].answer)!.style.backgroundColor = "rgb(1, 238, 1)";
     }
   
   }
