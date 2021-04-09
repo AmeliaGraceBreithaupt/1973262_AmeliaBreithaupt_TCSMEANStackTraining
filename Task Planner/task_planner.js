@@ -25,7 +25,7 @@ let mainHTML = `
     td,th{
         padding: 5px;
     }
-    h3{
+    h3,b{
         color:green;
     }
     h3,label,input,h1{
@@ -107,11 +107,17 @@ let server = http.createServer((req,res)=>{
             tasks.find(t=>{
                 if(t.taskId == data.taskId){
                     console.log(`Task with id ${data.taskId} already exists`)
+                    res.write(`<script>
+                window.alert("Task with id ${data.taskId} already exists");
+            </script>`)
                     flag = 0
                 }
             })
             if (flag != 0){
                 tasks.push(obj)
+                tasks.sort((a, b) => {
+                    return a.taskId - b.taskId;
+                });
                 //convert to string
                 let jsonData = JSON.stringify(tasks)
                 //store using fs module
@@ -132,7 +138,10 @@ let server = http.createServer((req,res)=>{
             }  
             //if task id not available, display error message
             if (index == null) {
-                console.log("No such task to delete")
+                console.log("No such task to delete")  
+                res.write(`<script>
+                window.alert("Task ${taskId} does not exist");
+            </script>`)
             } else {
                 //remove task
                 console.log("Deleted Task:")
