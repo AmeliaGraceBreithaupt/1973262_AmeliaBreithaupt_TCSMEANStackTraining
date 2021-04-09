@@ -43,6 +43,20 @@ let mainHTML = `
         <br>
     </div>
     `
+
+let tableHtml = `
+<table>
+    <thead>
+        <tr>
+            <th>Emp Id</th>
+            <th>Task Id</th>
+            <th>Task</th>
+            <th>Deadline</th>
+        </tr>
+    </thead>
+<tbody>
+`
+
 class Task {
     constructor(empId,taskId,task,deadline){
         this.empId = empId
@@ -101,18 +115,7 @@ let server = http.createServer((req,res)=>{
                     //convert from jason
                     let tasksString = data.toString()
                     let tasksJson = JSON.parse(tasksString) 
-                    let tableHtml = `
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Emp Id</th>
-                                <th>Task Id</th>
-                                <th>Task</th>
-                                <th>Deadline</th>
-                            </tr>
-                        </thead>
-                    <tbody>
-                    `
+                    
                     for (let i = 0;i<tasksJson.length;i++){
                         tableHtml += `
                         <tr>
@@ -122,21 +125,18 @@ let server = http.createServer((req,res)=>{
                             <td>${tasksJson[i].deadline}</td>
                         </tr>
                         `
-                    } 
-                    tableHtml += `
+                    }                                 
+                }
+                tableHtml += `
                         </tbody>
                     </table>
                     `
-                    //console.log(tableHtml)
-                    res.write(tableHtml)             
-                }
-                
+                //console.log(tableHtml)
+                res.write(tableHtml)
+                res.end()
             })
-            
         }
-        
     }
-    res.end() 
 })
 
 server.listen(port,()=>console.log(`server running on port number ${port}`))
