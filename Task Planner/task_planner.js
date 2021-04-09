@@ -67,7 +67,7 @@ let server = http.createServer((req,res)=>{
             //convert to string
             let jsonData = JSON.stringify(tasks)
             //store using fs module
-            fs.writeFileSync("tasks.json",jsonData) //HAVE TO READ AND WRITE OLD DATA FIRST OR JUST APPEND NEW
+            fs.writeFileSync("tasks.json",jsonData)
             console.log("file written")
             
         } else if(pathInfo == '/delete'){
@@ -82,14 +82,15 @@ let server = http.createServer((req,res)=>{
             }  
             //if task id not available, display error message
             if (index == null) {
-                res.write("<b> No such task to delete </b>")
+                console.log("No such task to delete")
             } else {
                 //remove task
-                console.log("Removed task "+tasks.splice(index,1))
+                console.log("Deleted Task:")
+                console.log(tasks.splice(index,1))
                 //convert to string
                 let jsonData = JSON.stringify(tasks)
                 //store using fs module
-                fs.writeFileSync("tasks.json",jsonData) //HAVE TO READ AND WRITE OLD DATA FIRST OR JUST APPEND NEW
+                fs.writeFileSync("tasks.json",jsonData)
                 console.log("file updated - task removed")
             }
                 
@@ -100,29 +101,42 @@ let server = http.createServer((req,res)=>{
                     //convert from jason
                     let tasksString = data.toString()
                     let tasksJson = JSON.parse(tasksString) 
-                    let tableHtml = ``
+                    let tableHtml = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Emp Id</th>
+                                <th>Task Id</th>
+                                <th>Task</th>
+                                <th>Deadline</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                    `
                     for (let i = 0;i<tasksJson.length;i++){
-                        
-                    }               
-                    //create table data variable using backtics ``
-                        //create variable to hold html with beginning of table html
-                    //iterate loop 
-                        //append table rows to table
-                    //after loop
-                        //append end table html
-                    /*
-                    <tabel>
+                        tableHtml += `
                         <tr>
-                            <td>${variableName}</td>
+                            <td>${tasksJson[i].empId}</td>
+                            <td>${tasksJson[i].taskId}</td>
+                            <td>${tasksJson[i].task}</td>
+                            <td>${tasksJson[i].deadline}</td>
                         </tr>
+                        `
+                    } 
+                    tableHtml += `
+                        </tbody>
                     </table>
-                    res.end(tableDataVariable);
-                    */
+                    `
+                    //console.log(tableHtml)
+                    res.write(tableHtml)             
                 }
+                
             })
+            
         }
+        
     }
-    res.end('')
+    res.end() 
 })
 
 server.listen(port,()=>console.log(`server running on port number ${port}`))
