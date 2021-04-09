@@ -103,7 +103,7 @@ let server = http.createServer((req,res)=>{
             //read from file
             let tableHtml = `
                 <table style="border: solid">
-                    <thead style="padding: 10px">
+                    <thead>
                         <tr>
                             <th>Emp Id</th>
                             <th>Task Id</th>
@@ -139,8 +139,9 @@ let server = http.createServer((req,res)=>{
                 res.end()
             })
         }
-    } else {
-        res.end()
+        else if (pathInfo == '/') {
+            res.end()
+        } 
     }
     
 })
