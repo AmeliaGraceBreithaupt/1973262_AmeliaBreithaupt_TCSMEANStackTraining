@@ -38,7 +38,7 @@ let mainHTML = `
     <div class="container">
         <div class="row">
             <div class="col-10">
-                <h1 style="font-family: cursive;">Task Planner</h1>
+                <h1 style="font-family: cursive; margin: 10px;">Task Planner</h1>
             </div> 
         </div>
         <div class="row">
@@ -102,13 +102,22 @@ let server = http.createServer((req,res)=>{
             let data = url.parse(req.url,true).query;
             //convert to object
             let obj = new Task(data.empId,data.taskId,data.task,data.deadline)
-            //store records in object using push
-            tasks.push(obj)
-            //convert to string
-            let jsonData = JSON.stringify(tasks)
-            //store using fs module
-            fs.writeFileSync("tasks.json",jsonData)
-            console.log("file written")
+            let flag = 1
+            //store records in object using push only if its not a duplicate
+            tasks.find(t=>{
+                if(t.taskId == data.taskId){
+                    console.log(`Task with id ${data.taskId} already exists`)
+                    flag = 0
+                }
+            })
+            if (flag != 0){
+                tasks.push(obj)
+                //convert to string
+                let jsonData = JSON.stringify(tasks)
+                //store using fs module
+                fs.writeFileSync("tasks.json",jsonData)
+                console.log("file written")
+            }
             res.end()
 
         } else if(pathInfo == '/delete'){
