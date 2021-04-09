@@ -14,34 +14,71 @@ fs.readFile("tasks.json",(err,data)=>{
         }
     }})
 let mainHTML = `
-    <div>
-        <h1>Task Planner</h1>
-        <h3>Add Task</h3>
-        <form action="/store" method="get">
-            <label>Emp Id: </label>
-            <input type="text" name="empId"/><br>
-            <label>Task Id: </label>
-            <input type="text" name="taskId"/><br>
-            <label>Task: </label>
-            <input type="text" name="task"/><br>
-            <label>Deadline: </label>
-            <input type="text" name="deadline"/><br><br>
-            <input type="submit" value="Add Task"/>
-        </form>
-        <br>
-        <form action="/delete" method="get">
-            <h3>Delete Task</h3>
-            <label>Task Id: </label>
-            <input type="text" name="taskId"/>
-            <input type="submit" value="Delete Task"/>
-        </form>
-        <br><hr>
-        <form action="/display">
-            <h3>Tasks</h3>
-            <input type="submit" value="Show All Tasks"/>
-        </form>
-        <br>
+    <head>
+    <title>Task Planner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    </head>
+    <style>
+    tr{
+        border: solid black 2px;
+    }
+    td,th{
+        padding: 5px;
+    }
+    h3{
+        color:green;
+    }
+    h3,label,input,h1{
+        text-align: center;
+    }
+    table{
+        width: 80%;
+    }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <h1 style="font-family: cursive;">Task Planner</h1>
+            </div> 
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <h3>Add Task</h3>
+                <form action="/store" method="get">
+                    <label>Emp Id: </label>
+                    <input type="text" name="empId"/><br>
+                    <label>Task Id: </label>
+                    <input type="text" name="taskId"/><br>
+                    <label>Task: </label>
+                    <input type="text" name="task"/><br>
+                    <label>Deadline: </label>
+                    <input type="text" name="deadline"/><br><br>
+                    <input type="submit" value="Add Task" class="btn btn-sm btn-outline-success"/>
+                </form>
+            </div>
+            <div class="col-5">
+                <form action="/delete" method="get">
+                    <h3>Delete Task</h3>
+                    <label>Task Id: </label>
+                    <input type="text" name="taskId"/><br><br>
+                    <input type="submit" value="Delete Task" class="btn btn-outline-success btn-sm"/>
+                </form>
+            </div>
+        </div>
     </div>
+    <hr>
+    <form action="/display">
+        <div class="container">
+            <div class="row">
+                <div class="col-5">
+                    <h3>Tasks</h3>
+                </div>
+                <div class="col-5">
+                    <input type="submit" value="Show All Tasks" class="btn btn-outline-success btn-sm"/>
+                </div>
+            </div>
+        </div>
+    </form>
     `
 
 
@@ -102,9 +139,11 @@ let server = http.createServer((req,res)=>{
         } else if (pathInfo == '/display') {
             //read from file
             let tableHtml = `
-                <table style="border: solid">
+            <div class="container">
+            <div class="row">
+                <table class="table table-striped">
                     <thead>
-                        <tr>
+                        <tr style="background-color: green; color: white;">
                             <th>Emp Id</th>
                             <th>Task Id</th>
                             <th>Task</th>
@@ -131,8 +170,11 @@ let server = http.createServer((req,res)=>{
                     }                                 
                 }
                 tableHtml += `
-                        </tbody>
-                    </table>
+                        
+                </table>
+                </div>
+            </div>
+        </div>
                     `
                 //console.log(tableHtml)
                 res.write(tableHtml)
