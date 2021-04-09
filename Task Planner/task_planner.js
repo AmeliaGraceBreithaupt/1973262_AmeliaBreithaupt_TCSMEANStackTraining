@@ -44,18 +44,6 @@ let mainHTML = `
     </div>
     `
 
-let tableHtml = `
-<table>
-    <thead>
-        <tr>
-            <th>Emp Id</th>
-            <th>Task Id</th>
-            <th>Task</th>
-            <th>Deadline</th>
-        </tr>
-    </thead>
-<tbody>
-`
 
 class Task {
     constructor(empId,taskId,task,deadline){
@@ -72,6 +60,7 @@ let server = http.createServer((req,res)=>{
         res.setHeader("content-type","text/html")
         res.write(mainHTML)
         var pathInfo = url.parse(req.url,true).pathname
+
         if(pathInfo == '/store'){
             let data = url.parse(req.url,true).query;
             //convert to object
@@ -83,7 +72,8 @@ let server = http.createServer((req,res)=>{
             //store using fs module
             fs.writeFileSync("tasks.json",jsonData)
             console.log("file written")
-            
+            res.end()
+
         } else if(pathInfo == '/delete'){
             let data = url.parse(req.url,true).query;
             let taskId = data.taskId
@@ -107,9 +97,22 @@ let server = http.createServer((req,res)=>{
                 fs.writeFileSync("tasks.json",jsonData)
                 console.log("file updated - task removed")
             }
-                
+            res.end()    
+
         } else if (pathInfo == '/display') {
             //read from file
+            let tableHtml = `
+                <table style="border: solid">
+                    <thead style="padding: 10px">
+                        <tr>
+                            <th>Emp Id</th>
+                            <th>Task Id</th>
+                            <th>Task</th>
+                            <th>Deadline</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                `
             fs.readFile("tasks.json",(err,data)=>{
                 if(!err){
                     //convert from jason
@@ -136,7 +139,10 @@ let server = http.createServer((req,res)=>{
                 res.end()
             })
         }
+    } else {
+        res.end()
     }
+    
 })
 
 server.listen(port,()=>console.log(`server running on port number ${port}`))
