@@ -188,11 +188,11 @@ let server = http.createServer((req,res)=>{
                     }                                 
                 }
                 tableHtml += `
-                        
-                </table>
-                </div>
-            </div>
-        </div>
+                                    
+                            </table>
+                            </div>
+                        </div>
+                    </div>
                     `
                 //console.log(tableHtml)
                 res.write(tableHtml)
@@ -206,4 +206,4 @@ let server = http.createServer((req,res)=>{
     
 })
 
-server.listen(port,()=>console.log(`server running on port number ${port}`))
+server.listen(port, console.log(`server running on port number ${port}`))
