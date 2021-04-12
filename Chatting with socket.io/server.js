@@ -13,7 +13,7 @@ io.on('connection',(socket)=>{
         console.log("Hello "+n)
     })
     socket.on('msg',(msg)=>{
-        console.log("Your "+msg)
+        console.log("Your message: "+msg)
     })
 })
 
