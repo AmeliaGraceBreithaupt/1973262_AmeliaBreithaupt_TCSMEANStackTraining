@@ -1,0 +1,14 @@
+{
+  "name": "call",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amelia Breithaupt",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.12.4"
+  }
+}
