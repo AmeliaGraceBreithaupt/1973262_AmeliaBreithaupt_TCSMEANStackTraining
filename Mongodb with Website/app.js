@@ -82,11 +82,25 @@ app.get("/deleteCDetails",(req,res)=>{    //course id = cid
     }
     res.sendFile(__dirname+"/index.html")
 })
-app.get("/updateCDetails/",(req,res)=>{    //course id = cid
-
+app.get("/updateCDetails/",(req,res)=>{
+    let data = url.parse(req.url,true).query;
     // retrieve data from body part
-    // connect to database
-    // store in database
+    if(data.id != undefined){
+        // connect to database
+        obj.connect(uri,mongooseDbOptions)    //ready to connect
+        const db = obj.connection;
+        var CourseModel = obj.model("",CourseSchema,'Courses')
+        CourseModel.updateOne({_id:Number(data.id)},{$set:{cost:Number(data.cost)}},(err,result)=>{
+            if(!err){
+                if(result.nModified>0){
+                    console.log("record updated")
+                } else{
+                    console.log("Record not present")
+                }
+            }
+            obj.disconnect()
+        })
+    }
     res.sendFile(__dirname+"/index.html")
 })
 app.get("/fetch",(req,res)=>{
