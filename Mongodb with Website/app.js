@@ -32,8 +32,6 @@ app.get("/",(req,res)=>{
         res.sendFile(__dirname+"/deleteCourse.html");
     } else if(name == 'Update Course'){
         res.sendFile(__dirname+"/updateCourse.html")
-    }else if(name == 'Fetch Courses'){
-        res.sendFile(__dirname+"/fetchCourse.html")
     } else{
         res.sendFile(__dirname+"/index.html")
     }
@@ -92,9 +90,16 @@ app.get("/updateCDetails/",(req,res)=>{    //course id = cid
     res.sendFile(__dirname+"/index.html")
 })
 app.get("/fetch",(req,res)=>{
-    res.sendFile(__dirname+"/fetchCourse.html")
-
-    // store records from mongoDB in Array
-    // res.json(arrayName) //see folder nodeJS with mongoDB -> server.js
+    //res.write('All Courses')
+    // connect to database
+    obj.connect(uri,mongooseDbOptions)    //ready to connect
+    const db = obj.connection;
+    var CourseModel = obj.model("",CourseSchema,'Courses')
+    CourseModel.find({},(err,result)=>{
+        if(!err){
+            res.json(result)
+        }
+    })
+    
 })
 app.listen(8800,()=>console.log("Running on port 8800..."))
